@@ -1,0 +1,593 @@
+{
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "title": "Python",
+    "image_url": null,
+    "category_id": "123e4567-e89b-12d3-a456-426614174000",
+    "category": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "Programming",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T13:53:22.173043Z",
+        "updated_at": "2025-02-02T13:53:22.173043Z"
+    },
+    "description": "python course",
+    "topics": [
+        {
+            "id": "b9985e00-c9f3-49a4-9fdb-8d6fb14af597",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Введение в Python",
+            "content": {
+                "id": "92456e6a-bfcb-42fd-b955-fac705456430",
+                "topic_id": "b9985e00-c9f3-49a4-9fdb-8d6fb14af597",
+                "content": "Этот урок знакомит с основами Python, его историей и областью применения.",
+                "additional_resources": [
+                    "https://docs.python.org/3/tutorial/",
+                    "https://realpython.com/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=rfscVS0vtbw"
+                ],
+                "image_urls": [
+                    "https://example.com/python_intro.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "6335d63e-b00c-4bb3-a543-41497f349008",
+                    "topic_id": "b9985e00-c9f3-49a4-9fdb-8d6fb14af597",
+                    "question": "Какой тип данных используется для работы с текстом в Python?",
+                    "options": [
+                        "int",
+                        "float",
+                        "str",
+                        "bool"
+                    ],
+                    "correct_answers": [
+                        false,
+                        false,
+                        true,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "6cd06013-359f-40f4-906e-f936055bec85",
+                    "topic_id": "b9985e00-c9f3-49a4-9fdb-8d6fb14af597",
+                    "description": "Выведи \"Hello, Python!\" на экран.",
+                    "difficulty_level": "easy",
+                    "starter_code": "print(\"Hello, Python!\")",
+                    "expected_output": "Hello, Python!",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 1,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "6a5f8cf8-cf75-4fe1-9fee-aefd6f6e969a",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Установка и настройка среды",
+            "content": {
+                "id": "89f878ee-d944-45b5-80db-d4fc0938aaa8",
+                "topic_id": "6a5f8cf8-cf75-4fe1-9fee-aefd6f6e969a",
+                "content": "Как установить Python и настроить среду разработки.",
+                "additional_resources": [
+                    "https://www.python.org/downloads/",
+                    "https://code.visualstudio.com/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=YYXdXT2l-Gg"
+                ],
+                "image_urls": [
+                    "https://example.com/python_setup.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+
+                    "id": "f789b5dd-84be-40a9-93d4-8e1ffff465ca",
+                    "topic_id": "6a5f8cf8-cf75-4fe1-9fee-aefd6f6e969a",
+                    "question": "Какой символ используется для комментариев в Python?",
+                    "options": [
+                        "//",
+                        "#",
+                        "--",
+                        "/* */"
+                    ],
+                    "correct_answers": [
+                        false,
+                        true,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "7dc35543-2eab-4df5-9105-e733f107983b",
+                    "topic_id": "6a5f8cf8-cf75-4fe1-9fee-aefd6f6e969a",
+                    "description": "Напиши программу, которая принимает имя пользователя и выводит приветствие.",
+                    "difficulty_level": "easy",
+                    "starter_code": "name = input(\"Введите ваше имя: \")\\nprint(\"Привет, \" + name + \"!\")",
+                    "expected_output": "Привет, Иван!",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 2,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "50ab2179-c7e4-4837-a906-26d22cdc9530",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Типы данных и переменные",
+            "content": {
+                "id": "0f9647aa-baeb-47e6-9560-7c4011461535",
+                "topic_id": "50ab2179-c7e4-4837-a906-26d22cdc9530",
+                "content": "Разбор типов данных: int, float, str, bool, list, tuple и их применение.",
+                "additional_resources": [
+                    "https://docs.python.org/3/library/stdtypes.html"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=wfcWRAxRVBA"
+                ],
+                "image_urls": [
+                    "https://example.com/python_data_types.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "87e8b391-3f6f-4051-8032-e8e88b7c7637",
+                    "topic_id": "50ab2179-c7e4-4837-a906-26d22cdc9530",
+                    "question": "Какой результат у выражения `bool(0)`?",
+                    "options": [
+                        "True",
+                        "False",
+                        "None"
+                    ],
+                    "correct_answers": [
+                        false,
+                        true,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "38a487ad-a0c8-4f78-8a90-df140233c19a",
+                    "topic_id": "50ab2179-c7e4-4837-a906-26d22cdc9530",
+                    "description": "Определи тип переменной `x = 3.14` и выведи его.",
+                    "difficulty_level": "medium",
+                    "starter_code": "x = 3.14\\nprint(type(x))",
+                    "expected_output": "<class \\\"float\"\\>",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 3,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+
+        {
+            "id": "2d37cc44-0239-493c-85a3-2a3ffe52563f",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Условные операторы if-else",
+            "content": {
+                "id": "96b82aea-9a30-454d-b917-34fd69d70b62",
+                "topic_id": "2d37cc44-0239-493c-85a3-2a3ffe52563f",
+                "content": "Как работают условные операторы if, elif, else.",
+                "additional_resources": [
+                    "https://realpython.com/python-conditional-statements/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=DZwmZ8Usvnk"
+                ],
+                "image_urls": [
+                    "https://example.com/python_if_else.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "a3ac94c1-6551-4c7e-80b5-8ab1ebd049a6",
+                    "topic_id": "2d37cc44-0239-493c-85a3-2a3ffe52563f",
+                    "question": "Что выведет код: `if 5 > 2: print(\"Python\")`?",
+                    "options": [
+                        "Python",
+                        "Ошибка",
+                        "Ничего"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "753181b7-af6e-4d21-8df0-3574632ce227",
+                    "topic_id": "2d37cc44-0239-493c-85a3-2a3ffe52563f",
+                    "description": "Используй `if`-`else` для проверки четности числа.",
+                    "difficulty_level": "medium",
+                    "starter_code": "num = int(input())\\nif num % 2 == 0:\\n    print(\"Четное\")\\nelse:\\n    print(\"Нечетное\")",
+                    "expected_output": "Четное",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 4,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "6f33abd3-63df-4149-8fd9-d4b4ed4413ef",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Циклы for и while",
+            "content": {
+                "id": "d5ca1722-893f-411f-ad83-64fc9419225b",
+                "topic_id": "6f33abd3-63df-4149-8fd9-d4b4ed4413ef",
+                "content": "Как использовать циклы for и while для повторяющихся операций.",
+                "additional_resources": [
+                    "https://realpython.com/python-loops/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=6iF8Xb7Z3wQ"
+                ],
+                "image_urls": [
+                    "https://example.com/python_loops.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "210d72fd-51f0-4356-8c86-2d27d1b47029",
+                    "topic_id": "6f33abd3-63df-4149-8fd9-d4b4ed4413ef",
+                    "question": "Какой цикл используется для перебора элементов списка?",
+                    "options": [
+                        "for",
+                        "while",
+                        "loop",
+                        "foreach"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false,
+                        false
+                    ],
+
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "7fe008c5-c203-4e7f-84dd-16b20553d4e3",
+                    "topic_id": "6f33abd3-63df-4149-8fd9-d4b4ed4413ef",
+                    "description": "Напиши цикл, который выводит числа от 1 до 5.",
+                    "difficulty_level": "easy",
+                    "starter_code": "for i in range(1, 6):\\n    print(i)",
+                    "expected_output": "1\\n2\\n3\\n4\\n5",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 5,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "5af0dd8f-263f-4592-8e8f-8d9c8b223965",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Функции и аргументы",
+            "content": {
+                "id": "cd4b6ae4-55ae-448e-a979-dffbddc37c7b",
+                "topic_id": "5af0dd8f-263f-4592-8e8f-8d9c8b223965",
+                "content": "Создание и вызов функций в Python. Передача аргументов.",
+                "additional_resources": [
+                    "https://realpython.com/defining-your-own-python-function/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=9Os0o3wzS_I"
+                ],
+                "image_urls": [
+                    "https://example.com/python_functions.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "2bae2594-81ac-4065-aa6a-d76451f51ed3",
+                    "topic_id": "5af0dd8f-263f-4592-8e8f-8d9c8b223965",
+                    "question": "Какой оператор используется для определения функции в Python?",
+                    "options": [
+                        "def",
+                        "func",
+                        "define",
+                        "function"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "f8f459a1-75dc-46ca-b691-f1333291fc96",
+                    "topic_id": "5af0dd8f-263f-4592-8e8f-8d9c8b223965",
+                    "description": "Создай функцию, которая возвращает сумму двух чисел.",
+                    "difficulty_level": "medium",
+                    "starter_code": "def sum(a, b):\\n    return a + b\\nprint(sum(3, 4))",
+                    "expected_output": "7",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 6,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "a9b3d63d-435c-4525-9075-c85ed551710f",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Списки и кортежи",
+            "content": {
+                "id": "c9d15e41-bb72-43b6-8957-c53d8bd2a868",
+                "topic_id": "a9b3d63d-435c-4525-9075-c85ed551710f",
+                "content": "Работа со списками и кортежами. Индексация, срезы, методы.",
+                "additional_resources": [
+                    "https://realpython.com/python-lists-tuples/"
+                ],
+
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=W8KRzm-HUcc"
+                ],
+                "image_urls": [
+                    "https://example.com/python_lists.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "7553050d-aa37-46c1-ba1e-e93a8c8a2184",
+                    "topic_id": "a9b3d63d-435c-4525-9075-c85ed551710f",
+                    "question": "Какой метод используется для добавления элемента в список?",
+                    "options": [
+                        "append()",
+                        "add()",
+                        "insert()",
+                        "push()"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "e8cf1b27-e3e1-4384-9cdd-c40e89a7f6de",
+                    "topic_id": "a9b3d63d-435c-4525-9075-c85ed551710f",
+                    "description": "Добавь элемент в список и выведи его.",
+                    "difficulty_level": "easy",
+                    "starter_code": "lst = []\\nlst.append(5)\\nprint(lst)",
+                    "expected_output": "[5]",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 7,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "596d8e4e-3391-43af-8090-25476c03a030",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Словари и множества",
+            "content": {
+                "id": "f6199499-d4e8-4d3c-ab96-a904e864897f",
+                "topic_id": "596d8e4e-3391-43af-8090-25476c03a030",
+                "content": "Как использовать словари и множества.",
+                "additional_resources": [
+                    "https://realpython.com/python-dicts/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=daefaLgNkw0"
+                ],
+                "image_urls": [
+                    "https://example.com/python_dicts.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "892f5d79-6f31-4fb9-a83b-c19c692254eb",
+                    "topic_id": "596d8e4e-3391-43af-8090-25476c03a030",
+                    "question": "Какая структура данных хранит пары ключ-значение?",
+                    "options": [
+                        "List",
+                        "Tuple",
+                        "Set",
+                        "Dictionary"
+                    ],
+                    "correct_answers": [
+                        false,
+                        false,
+                        false,
+                        true
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "5bf16efc-0832-49eb-97e4-b98829705130",
+                    "topic_id": "596d8e4e-3391-43af-8090-25476c03a030",
+                    "description": "Создай словарь с ключами \"name\" и \"age\", затем выведи их.",
+                    "difficulty_level": "medium",
+
+                    "starter_code": "person = {\"name\": \"Alice\", \"age\": 25}\\nprint(person[\"name\"], person[\"age\"])",
+                    "expected_output": "Alice 25",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 8,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "d6f770d8-21cf-403a-a35a-06f4820f5d36",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Работа с файлами",
+            "content": {
+                "id": "46446686-e048-4943-8708-968814b71966",
+                "topic_id": "d6f770d8-21cf-403a-a35a-06f4820f5d36",
+                "content": "Открытие, чтение и запись файлов в Python.",
+                "additional_resources": [
+                    "https://realpython.com/read-write-files-python/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=Uh2ebFW8OYM"
+                ],
+                "image_urls": [
+                    "https://example.com/python_files.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+                    "id": "ac5f80b1-8e40-4d31-9f18-ca53e853099f",
+                    "topic_id": "d6f770d8-21cf-403a-a35a-06f4820f5d36",
+                    "question": "Какой метод используется для открытия файла в Python?",
+                    "options": [
+                        "open()",
+                        "read()",
+                        "write()",
+                        "file()"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "c96a7fb7-f375-4287-8065-920bd393004d",
+                    "topic_id": "d6f770d8-21cf-403a-a35a-06f4820f5d36",
+                    "description": "Открой файл \"test.txt\" и выведи его содержимое.",
+                    "difficulty_level": "hard",
+                    "starter_code": "with open(\"test.txt\", \"r\") as f:\\n    print(f.read())",
+                    "expected_output": "Содержимое файла",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 9,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        },
+        {
+            "id": "1926c56d-4639-40d3-bf4e-895d78bf083c",
+            "course_id": "550e8400-e29b-41d4-a716-446655440000",
+            "title": "Основы ООП в Python",
+            "content": {
+                "id": "15dad0f7-2988-42fe-a941-a331fd0eb7e0",
+                "topic_id": "1926c56d-4639-40d3-bf4e-895d78bf083c",
+                "content": "Основы объектно-ориентированного программирования в Python.",
+                "additional_resources": [
+                    "https://realpython.com/python3-object-oriented-programming/"
+                ],
+                "video_urls": [
+                    "https://www.youtube.com/watch?v=JeznW_7DlB0"
+                ],
+                "image_urls": [
+                    "https://example.com/python_oop.png"
+                ],
+                "created_at": "2025-02-02T21:18:20.34166+05:00",
+                "updated_at": "2025-02-02T21:18:20.34166+05:00"
+            },
+            "quizzes": [
+                {
+
+                    "id": "94197e9f-c955-4df8-8c19-e86a0a5c68c1",
+                    "topic_id": "1926c56d-4639-40d3-bf4e-895d78bf083c",
+                    "question": "Какой ключевое слово используется для создания класса в Python?",
+                    "options": [
+                        "class",
+                        "struct",
+                        "object",
+                        "define"
+                    ],
+                    "correct_answers": [
+                        true,
+                        false,
+                        false,
+                        false
+                    ],
+                    "created_at": "2025-02-02T22:26:38.627378+05:00",
+                    "updated_at": "2025-02-02T22:26:38.627378+05:00"
+                }
+            ],
+            "practical_tasks": [
+                {
+                    "id": "e061f047-defe-4951-bb9d-b37c3953c294",
+                    "topic_id": "1926c56d-4639-40d3-bf4e-895d78bf083c",
+                    "description": "Создай класс \"Car\" с атрибутами \"brand\" и \"model\", затем создай объект и выведи его данные.",
+                    "difficulty_level": "hard",
+                    "starter_code": "class Car:\\n    def __init__(self, brand, model):\\n        self.brand = brand\\n        self.model = model\\ncar = Car(\"Toyota\", \"Camry\")\\nprint(car.brand, car.model)",
+                    "expected_output": "Toyota Camry",
+                    "created_at": "2025-02-02T22:27:27.827238+05:00",
+                    "updated_at": "2025-02-02T22:27:27.827238+05:00"
+                }
+            ],
+            "order_number": 10,
+            "created_at": "2025-02-02T21:10:05.658871+05:00",
+            "updated_at": "2025-02-02T21:10:05.658871+05:00"
+        }
+    ],
+    "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "created_at": "2025-02-02T12:55:48.595487Z",
+    "updated_at": "2025-02-02T12:55:48.595487Z"
+}

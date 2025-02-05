@@ -1,0 +1,98 @@
+[
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "title": "Python",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "python course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:55:48.595487Z",
+        "updated_at": "2025-02-02T12:55:48.595487Z"
+    },
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440001",
+        "title": "Java",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "Java course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:55:48.595487Z",
+        "updated_at": "2025-02-02T12:55:48.595487Z"
+    },
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440002",
+        "title": "JavaScript",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "JavaScript course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:56:48.595487Z",
+        "updated_at": "2025-02-02T12:56:48.595487Z"
+    },
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440003",
+        "title": "C++",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "C++ course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:57:48.595487Z",
+        "updated_at": "2025-02-02T12:57:48.595487Z"
+    },
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440004",
+        "title": "HTML & CSS",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "HTML & CSS course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:58:48.595487Z",
+        "updated_at": "2025-02-02T12:58:48.595487Z"
+    },
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440005",
+        "title": "React.js",
+        "image_url": "https://placehold.co/600x400",
+        "category": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "Programming",
+            "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+            "created_at": "2025-02-02T13:53:22.173043Z",
+            "updated_at": "2025-02-02T13:53:22.173043Z"
+        },
+        "description": "React.js course",
+        "created_by": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2025-02-02T12:59:48.595487Z",
+        "updated_at": "2025-02-02T12:59:48.595487Z"
+    }
+]
