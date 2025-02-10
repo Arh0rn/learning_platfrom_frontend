@@ -4,32 +4,34 @@ import {
     Container,
     Typography,
     Card,
-    CardMedia,
     CardContent,
+    CardMedia,
     Button,
+    List,
+    ListItem,
+    CircularProgress,
 } from "@mui/material";
+import { getCourseById } from "../api/courses";
 
 const CoursePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [course, setCourse] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Temporary fetch from local JSON (will be replaced by real API)
-        fetch("/samples/courses.json")
-            .then((response) => response.json())
+        getCourseById(id)
             .then((data) => {
-                const foundCourse = data.find((c) => c.id === id);
-                if (foundCourse) {
-                    setCourse(foundCourse);
-                } else {
-                    navigate("/courses"); // Redirect if course is not found
-                }
+                setCourse(data);
+                setLoading(false);
             })
-            .catch((error) => console.error("Error loading course:", error));
+            .catch(() => {
+                navigate("/courses");
+            });
     }, [id, navigate]);
 
-    if (!course) return null; // Prevent rendering if course is not loaded
+    if (loading) return <CircularProgress />;
+    if (!course) return null;
 
     return (
         <Container maxWidth="md">
@@ -40,23 +42,39 @@ const CoursePage = () => {
                     image={
                         course.image_url ||
                         "https://via.placeholder.com/600x250"
-                    } // Placeholder image
+                    }
                     alt={course.title}
                 />
                 <CardContent>
                     <Typography variant="h4" gutterBottom>
                         {course.title}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" gutterBottom>
                         {course.description}
                     </Typography>
+
+                    <Typography variant="h5" sx={{ mt: 2 }}>
+                        Topics:
+                    </Typography>
+                    <List>
+                        {course.topics.map((topic) => (
+                            <ListItem key={topic.id}>
+                                <Typography variant="body1">
+                                    • {topic.title}
+                                </Typography>
+                            </ListItem>
+                        ))}
+                    </List>
+
                     <Button
                         variant="contained"
                         color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={() => navigate("/courses")}
+                        sx={{ mt: 3 }}
+                        onClick={() =>
+                            navigate(`/course/${course.id}/materials`)
+                        }
                     >
-                        Back to Courses
+                        Start Course
                     </Button>
                 </CardContent>
             </Card>

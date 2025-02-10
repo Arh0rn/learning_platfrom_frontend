@@ -21,7 +21,7 @@ function Header() {
                         sx={{ flexGrow: 1, cursor: "pointer" }}
                         onClick={() => navigate("/")}
                     >
-                        Online Learning Platform
+                        Ғылым-base
                     </Typography>
 
                     {/* Show "Courses" Button only if user is logged in */}
