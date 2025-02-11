@@ -1,83 +1,165 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { getCourseById, enrollToCourse } from "../api/courses";
 import {
     Container,
     Typography,
+    Button,
+    Box,
     Card,
     CardContent,
-    CardMedia,
-    Button,
     List,
     ListItem,
-    CircularProgress,
+    ListItemText,
+    Divider,
 } from "@mui/material";
-import { getCourseById } from "../api/courses";
 
 const CoursePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [course, setCourse] = useState(null);
+    const [courseData, setCourseData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        getCourseById(id)
-            .then((data) => {
-                setCourse(data);
-                setLoading(false);
-            })
-            .catch(() => {
-                navigate("/courses");
-            });
-    }, [id, navigate]);
+        const fetchCourse = async () => {
+            try {
+                const data = await getCourseById(id);
+                setCourseData(data);
 
-    if (loading) return <CircularProgress />;
-    if (!course) return null;
+                // Если курс имеет темы, сохраняем первую в localStorage
+                if (data.topics.length > 0) {
+                    localStorage.setItem("firstTopicId", data.topics[0].id);
+                }
+                localStorage.setItem("currentCourse", JSON.stringify(data));
+            } catch (err) {
+                setError("Ошибка загрузки курса");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourse();
+    }, [id]);
+
+    const handleEnroll = async () => {
+        try {
+            await enrollToCourse(id);
+            redirectToFirstTopic();
+        } catch (err) {
+            console.error("Ошибка при записи на курс:", err);
+        }
+    };
+
+    const redirectToFirstTopic = () => {
+        const firstTopicId = localStorage.getItem("firstTopicId");
+        if (firstTopicId) {
+            navigate(`/course/${id}/materials/topic/${firstTopicId}/content`);
+        } else {
+            console.error("Ошибка: не найден ID первой темы.");
+        }
+    };
+
+    if (loading) return <Typography>Загрузка...</Typography>;
+    if (error) return <Typography color="error">{error}</Typography>;
+    if (!courseData || !courseData.course)
+        return <Typography>Курс не найден</Typography>;
+
+    const { course, topics = [] } = courseData;
 
     return (
-        <Container maxWidth="md">
-            <Card>
-                <CardMedia
+        <Container maxWidth="md" sx={{ mt: 4 }}>
+            <Typography variant="h3" gutterBottom>
+                {course.title}
+            </Typography>
+
+            {course.image_url && (
+                <Box
                     component="img"
-                    height="250"
-                    image={
-                        course.image_url ||
-                        "https://via.placeholder.com/600x250"
-                    }
+                    src={course.image_url}
                     alt={course.title}
+                    sx={{
+                        width: "100%",
+                        maxHeight: 300,
+                        objectFit: "cover",
+                        borderRadius: 2,
+                        mb: 2,
+                    }}
                 />
+            )}
+
+            <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <Typography variant="h4" gutterBottom>
-                        {course.title}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Typography variant="h6">Описание курса</Typography>
+                    <Typography variant="body1">
                         {course.description}
                     </Typography>
-
-                    <Typography variant="h5" sx={{ mt: 2 }}>
-                        Topics:
-                    </Typography>
-                    <List>
-                        {course.topics.map((topic) => (
-                            <ListItem key={topic.id}>
-                                <Typography variant="body1">
-                                    • {topic.title}
-                                </Typography>
-                            </ListItem>
-                        ))}
-                    </List>
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 3 }}
-                        onClick={() =>
-                            navigate(`/course/${course.id}/materials`)
-                        }
-                    >
-                        Start Course
-                    </Button>
                 </CardContent>
             </Card>
+
+            <Card sx={{ mb: 3 }}>
+                <CardContent>
+                    <Typography variant="h6">Категория</Typography>
+                    <Typography variant="body2">
+                        {course.category?.name || "Неизвестно"}
+                    </Typography>
+
+                    <Typography variant="h6" sx={{ mt: 2 }}>
+                        Дата создания
+                    </Typography>
+                    <Typography variant="body2">
+                        {course.created_at
+                            ? new Date(course.created_at).toLocaleDateString()
+                            : "Неизвестно"}
+                    </Typography>
+                </CardContent>
+            </Card>
+
+            <Card sx={{ mb: 3 }}>
+                <CardContent>
+                    <Typography variant="h6">Темы курса</Typography>
+                    {topics.length > 0 ? (
+                        <List>
+                            {topics.map((topic, index) => (
+                                <div key={topic.id}>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary={`${index + 1}. ${
+                                                topic.title
+                                            }`}
+                                            secondary={topic.description}
+                                        />
+                                    </ListItem>
+                                    {index < topics.length - 1 && <Divider />}
+                                </div>
+                            ))}
+                        </List>
+                    ) : (
+                        <Typography variant="body2" color="textSecondary">
+                            Темы пока не добавлены
+                        </Typography>
+                    )}
+                </CardContent>
+            </Card>
+
+            <Box sx={{ display: "flex", gap: 2 }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={handleEnroll}
+                >
+                    Enroll to
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={redirectToFirstTopic}
+                >
+                    Go to Materials
+                </Button>
+            </Box>
         </Container>
     );
 };

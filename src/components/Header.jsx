@@ -10,7 +10,7 @@ function Header() {
         <AppBar
             position="static"
             sx={{
-                borderRadius: "12px", // Rounded corners
+                borderRadius: "5px", // Rounded corners
             }}
         >
             <Container>

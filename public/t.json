@@ -1,0 +1,49 @@
+{
+    "answers": [
+        {
+            "question_id": "b5ad708e-029b-4c89-827a-1306c16570c0",
+            "answer": [
+                true,
+                true,
+                false,
+                false
+            ]
+        },
+        {
+            "question_id": "4064e6dd-d1a2-4aae-a99e-8c27b5654cb9",
+            "answer": [
+                true,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "question_id": "51f11c37-8495-40e9-be84-0b41248efa1a",
+            "answer": [
+                true,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "question_id": "d6625302-5621-41cd-9d3c-32dca399d3bf",
+            "answer": [
+                true,
+                false,
+                false,
+                false
+            ]
+        },
+        {
+            "question_id": "ae4cc03e-6f55-4c22-afbd-4f603b074d02",
+            "answer": [
+                true,
+                false,
+                false,
+                false
+            ]
+        }
+    ]
+}

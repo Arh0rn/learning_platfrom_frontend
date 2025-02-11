@@ -8,7 +8,7 @@ function Footer() {
                 color: "white",
                 py: 2,
                 mt: 4,
-                borderRadius: "12px", // Rounded corners
+                borderRadius: "5px", // Rounded corners
             }}
         >
             <Container>

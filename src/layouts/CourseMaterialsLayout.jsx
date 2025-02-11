@@ -1,18 +1,33 @@
 import { Box } from "@mui/material";
 import SemiHeader from "../components/SemiHeader";
 import Sidebar from "../components/Sidebar";
-import { Outlet, useParams } from "react-router-dom";
-import sampleCourse from "../samples/course.json"; // Sample data for now
+import { Outlet, useParams } from "react-router-dom"; // ❌ useEffect и useState не здесь!
+import { useEffect, useState } from "react"; // ✅ Импортируем useEffect и useState из React
+import { getCourseById } from "../api/courses";
+import Header from "../components/Header";
 
 const CourseMaterialsLayout = () => {
     const { id } = useParams();
-    const course = sampleCourse.id === id ? sampleCourse : null;
+    const [course, setCourse] = useState(null);
 
-    if (!course) return <p>Course not found</p>;
+    useEffect(() => {
+        const fetchCourse = async () => {
+            try {
+                const data = await getCourseById(id);
+                setCourse(data);
+            } catch (error) {
+                console.error("Ошибка загрузки курса:", error);
+            }
+        };
+        fetchCourse();
+    }, [id]);
+
+    if (!course) return <p>Загрузка...</p>;
 
     return (
         <Box display="flex" flexDirection="column" height="100vh">
-            <SemiHeader courseTitle={course.title} />
+            <Header />
+            <SemiHeader courseTitle={course.course.title} />
             <Box display="flex" flexGrow={1}>
                 <Sidebar course={course} />
                 <Box flexGrow={1} p={3}>
