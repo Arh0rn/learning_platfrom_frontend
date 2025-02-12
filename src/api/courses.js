@@ -127,3 +127,27 @@ export const getTopicTask = async (courseId, topicId, order) => {
         throw error;
     }
 };
+
+export const submitTaskSolution = async (
+    courseId,
+    topicId,
+    taskId,
+    inputCode
+) => {
+    try {
+        // Fix double quotes issue before sending
+        const cleanCode = inputCode.replace(/""/g, '"');
+
+        const response = await api.post(
+            `/courses/${courseId}/topic/${topicId}/task/${taskId}/submit`,
+            { input: cleanCode }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(
+            `Ошибка при отправке решения для задания ${taskId}:`,
+            error
+        );
+        throw error;
+    }
+};
