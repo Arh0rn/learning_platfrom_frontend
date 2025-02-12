@@ -80,7 +80,6 @@ const CoursePage = () => {
                     alt={course.title}
                     sx={{
                         width: "100%",
-                        maxHeight: 300,
                         objectFit: "cover",
                         borderRadius: 2,
                         mb: 2,
