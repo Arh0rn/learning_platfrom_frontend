@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081/api/v1/";
+const API_URL = "https://api-golang-production-a90c.up.railway.app/api/v1";
 
 const api = axios.create({
     baseURL: API_URL,
