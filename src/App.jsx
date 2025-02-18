@@ -23,6 +23,12 @@ import { AuthProvider } from "./context/AuthContext";
 import { getCourseById } from "./api/courses";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import MyCoursesPage from "./pages/MyCoursesPage"; // Existing "My Courses" page
+
+// Forum imports:
+import ForumLayout from "./layouts/ForumLayout";
+import ForumHomePage from "./pages/forum/ForumHomePage";
+import ForumQuestionPage from "./pages/forum/ForumQuestionPage";
 
 function App() {
     return (
@@ -50,6 +56,14 @@ function App() {
                             element={
                                 <ProtectedRoute>
                                     <CoursesPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/my-courses"
+                            element={
+                                <ProtectedRoute>
+                                    <MyCoursesPage />
                                 </ProtectedRoute>
                             }
                         />
@@ -103,6 +117,22 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+
+                    {/* ✅ Forum routes with dedicated layout */}
+                    <Route path="/forum" element={<ForumLayout />}>
+                        {/* Index route => if path is exactly /forum */}
+                        <Route index element={<ForumHomePage />} />
+                        {/* /forum/category/:catId => reuse ForumHomePage to filter questions */}
+                        <Route
+                            path="category/:catId"
+                            element={<ForumHomePage />}
+                        />
+                        {/* Single question page => /forum/question/:id */}
+                        <Route
+                            path="question/:id"
+                            element={<ForumQuestionPage />}
+                        />
+                    </Route>
                 </Routes>
             </Router>
         </AuthProvider>

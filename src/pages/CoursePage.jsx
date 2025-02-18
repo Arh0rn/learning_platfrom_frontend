@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCourseById, enrollToCourse } from "../api/courses";
 import {
     Container,
     Typography,
@@ -13,21 +12,29 @@ import {
     ListItemText,
     Divider,
 } from "@mui/material";
+import {
+    getCourseById,
+    enrollToCourse,
+    getUserEnrollments,
+} from "../api/courses";
 
 const CoursePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [courseData, setCourseData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isEnrolled, setIsEnrolled] = useState(false);
 
     useEffect(() => {
+        // 1) Load the course data
         const fetchCourse = async () => {
             try {
                 const data = await getCourseById(id);
                 setCourseData(data);
 
-                // Если курс имеет темы, сохраняем первую в localStorage
+                // Store first topic in localStorage
                 if (data.topics.length > 0) {
                     localStorage.setItem("firstTopicId", data.topics[0].id);
                 }
@@ -39,12 +46,26 @@ const CoursePage = () => {
                 setLoading(false);
             }
         };
+
+        // 2) Check if user is enrolled in this course
+        const checkEnrollment = async () => {
+            try {
+                const enrollments = await getUserEnrollments();
+                const enrolled = enrollments.some((en) => en.course?.id === id);
+                setIsEnrolled(enrolled);
+            } catch (err) {
+                console.error("Failed to check enrollment:", err);
+            }
+        };
+
         fetchCourse();
+        checkEnrollment();
     }, [id]);
 
     const handleEnroll = async () => {
         try {
             await enrollToCourse(id);
+            setIsEnrolled(true); // now they’re enrolled
             redirectToFirstTopic();
         } catch (err) {
             console.error("Ошибка при записи на курс:", err);
@@ -62,8 +83,9 @@ const CoursePage = () => {
 
     if (loading) return <Typography>Загрузка...</Typography>;
     if (error) return <Typography color="error">{error}</Typography>;
-    if (!courseData || !courseData.course)
+    if (!courseData || !courseData.course) {
         return <Typography>Курс не найден</Typography>;
+    }
 
     const { course, topics = [] } = courseData;
 
@@ -142,22 +164,26 @@ const CoursePage = () => {
             </Card>
 
             <Box sx={{ display: "flex", gap: 2 }}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={handleEnroll}
-                >
-                    Enroll to
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={redirectToFirstTopic}
-                >
-                    Go to Materials
-                </Button>
+                {/* Conditionally show the button based on enrollment status */}
+                {!isEnrolled ? (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={handleEnroll}
+                    >
+                        Enroll to
+                    </Button>
+                ) : (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={redirectToFirstTopic}
+                    >
+                        Go to Materials
+                    </Button>
+                )}
             </Box>
         </Container>
     );
