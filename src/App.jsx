@@ -23,7 +23,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { getCourseById } from "./api/courses";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import MyCoursesPage from "./pages/MyCoursesPage"; // Existing "My Courses" page
+import MyCoursesPage from "./pages/MyCoursesPage"; // "My Courses" page
 
 // Forum imports:
 import ForumLayout from "./layouts/ForumLayout";
@@ -36,7 +36,7 @@ function App() {
         <AuthProvider>
             <Router>
                 <Routes>
-                    {/* ✅ Открытые маршруты внутри MainLayout */}
+                    {/* ✅ Public routes under MainLayout */}
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<AuthPage />} />
@@ -51,7 +51,7 @@ function App() {
                             element={<ConfirmResetPage />}
                         />
 
-                        {/* ✅ Закрытые маршруты внутри MainLayout */}
+                        {/* ✅ Protected routes under MainLayout */}
                         <Route
                             path="/courses"
                             element={
@@ -86,7 +86,7 @@ function App() {
                         />
                     </Route>
 
-                    {/* ✅ Лейаут материалов курса */}
+                    {/* ✅ Course Materials Layout */}
                     <Route
                         path="/course/:id/materials"
                         element={
@@ -103,13 +103,17 @@ function App() {
                             path="topic/:topicId/quiz"
                             element={<QuizPage />}
                         />
+                        {/* 
+                            Replace topic/:topicId/task with topic/:topicId/task/:order
+                            so the TaskPage can load tasks #1, #2, #3, etc.
+                        */}
                         <Route
-                            path="topic/:topicId/task"
+                            path="topic/:topicId/task/:order"
                             element={<TaskPage />}
                         />
                     </Route>
 
-                    {/* ✅ Перенаправление на первую тему курса */}
+                    {/* ✅ Auto-redirect to first topic if no subroute */}
                     <Route
                         path="/course/:id/materials"
                         element={
@@ -119,7 +123,7 @@ function App() {
                         }
                     />
 
-                    {/* ✅ Forum routes with dedicated layout */}
+                    {/* ✅ Forum routes with ForumLayout */}
                     <Route path="/forum" element={<ForumLayout />}>
                         <Route index element={<ForumHomePage />} />
                         <Route
@@ -130,8 +134,6 @@ function App() {
                             path="question/:id"
                             element={<ForumQuestionPage />}
                         />
-
-                        {/* Ask a new question */}
                         <Route path="ask" element={<AskQuestionPage />} />
                     </Route>
                 </Routes>
@@ -141,7 +143,7 @@ function App() {
 }
 
 /**
- * ✅ Автоматическое перенаправление на первую тему курса.
+ * ✅ Automatically redirect to the first topic’s content
  */
 const RedirectToFirstTopic = () => {
     const { id } = useParams();
@@ -156,10 +158,10 @@ const RedirectToFirstTopic = () => {
                         `/course/${id}/materials/topic/${data.topics[0].id}/content`
                     );
                 } else {
-                    console.error("Нет доступных тем в курсе.");
+                    console.error("No themes in course");
                 }
             } catch (error) {
-                console.error("Ошибка загрузки курса:", error);
+                console.error("Course loading error:", error);
             }
         };
 

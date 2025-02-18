@@ -194,64 +194,53 @@ export const resetQuiz = async (courseId, topicId) => {
 };
 
 /**
- * GET /courses/{course_id}/topic/{topic_id}/tasks/{order}
- *
- * Retrieves a single practical task in a given topic, by order number.
- * Example response:
- * {
- *   id: "string",
- *   description: "string",
- *   starter_code: "string",
- *   ...
- * }
+ * GET /courses/{courseId}/topic/{topicId}/tasks/{order}
+ * Returns a task with an "id" (UUID) and "starter_code",
+ * which may look like "package main\\n\\nimport (\\n\\t\"fmt\"\\n) ..."
  */
 export const getTopicTask = async (courseId, topicId, order) => {
-    try {
-        const response = await api.get(
-            `/courses/${courseId}/topic/${topicId}/tasks/${order}`
-        );
-        return response.data;
-    } catch (error) {
-        console.error(
-            `Error fetching task ${order} for topic ${topicId}:`,
-            error
-        );
-        throw error;
-    }
+    const response = await api.get(
+        `/courses/${courseId}/topic/${topicId}/tasks/${order}`
+    );
+    return response.data;
 };
 
 /**
- * POST /courses/{course_id}/topic/{topic_id}/task/{task_id}/submit
- * Body: { input: string }
- *
- * Submits the user's solution (code) for a given task. The server
- * may compile/run it and respond with pass/fail details, or just
- * "success".
- *
- * We do a small fix to replace """" with "\"" if needed.
+ * Execute code:
+ * POST /courses/{courseId}/topic/{topicId}/task/{taskId}/execute
+ * Body: { input: codeAsIs }
  */
-export const submitTaskSolution = async (
-    courseId,
-    topicId,
-    taskId,
-    inputCode
-) => {
-    try {
-        // Fix double quotes issue before sending
-        const cleanCode = inputCode.replace(/""/g, '"');
+export const executeTask = async (courseId, topicId, taskId, code) => {
+    // Send the code as-is. JSON.stringify will produce single \n, \t, etc.
+    const response = await api.post(
+        `/courses/${courseId}/topic/${topicId}/task/${taskId}/execute`,
+        { input: code }
+    );
+    return response.data;
+};
 
-        const response = await api.post(
-            `/courses/${courseId}/topic/${topicId}/task/${taskId}/submit`,
-            { input: cleanCode }
-        );
-        return response.data;
-    } catch (error) {
-        console.error(
-            `Ошибка при отправке решения для задания ${taskId}:`,
-            error
-        );
-        throw error;
-    }
+/**
+ * Reset the user's progress:
+ * DELETE /courses/{courseId}/topic/{topicId}/task/{taskId}/reset
+ */
+export const resetTask = async (courseId, topicId, taskId) => {
+    const response = await api.delete(
+        `/courses/${courseId}/topic/${topicId}/task/${taskId}/reset`
+    );
+    return response.data;
+};
+
+/**
+ * Submit final solution:
+ * POST /courses/{courseId}/topic/{topicId}/task/{taskId}/submit
+ * Body: { input: codeAsIs }
+ */
+export const submitTaskSolution = async (courseId, topicId, taskId, code) => {
+    const response = await api.post(
+        `/courses/${courseId}/topic/${topicId}/task/${taskId}/submit`,
+        { input: code }
+    );
+    return response.data;
 };
 
 /* ------------------------------------------------------------------
@@ -273,44 +262,6 @@ export const getUserEnrollments = async () => {
         return response.data.enrollments;
     } catch (error) {
         console.error("Error fetching user enrollments:", error);
-        throw error;
-    }
-};
-
-/**
- * POST /courses/{course_id}/topic/{topic_id}/task/{task_id}/execute
- * Body: { input: string }
- *
- * Runs the user's code in a sandbox environment. The response might
- * look like { output: "...some console output..." }
- */
-export const executeTask = async (courseId, topicId, taskId, code) => {
-    try {
-        const response = await api.post(
-            `/courses/${courseId}/topic/${topicId}/task/${taskId}/execute`,
-            { input: code }
-        );
-        return response.data;
-    } catch (error) {
-        console.error(`Error executing task ${taskId}:`, error);
-        throw error;
-    }
-};
-
-/**
- * DELETE /courses/{course_id}/topic/{topic_id}/task/{task_id}/reset
- *
- * Resets the practical task for the user. Typically returns
- * { status: "success" } on success.
- */
-export const resetTask = async (courseId, topicId, taskId) => {
-    try {
-        const response = await api.delete(
-            `/courses/${courseId}/topic/${topicId}/task/${taskId}/reset`
-        );
-        return response.data;
-    } catch (error) {
-        console.error(`Error resetting task ${taskId}:`, error);
         throw error;
     }
 };

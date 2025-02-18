@@ -1,3 +1,4 @@
+// src/components/Sidebar.jsx
 import { List, ListItem, ListItemText, Collapse } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,11 +25,6 @@ const Sidebar = () => {
             }
         }
     }, []);
-
-    useEffect(() => {
-        console.log("Sidebar - Loaded course:", course);
-        console.log("Sidebar - Loaded topics:", topics);
-    }, [course, topics]);
 
     const toggleTopic = (topicId) => {
         setOpenTopics((prev) => ({ ...prev, [topicId]: !prev[topicId] }));
@@ -64,46 +60,65 @@ const Sidebar = () => {
                             unmountOnExit
                         >
                             <List component="div" disablePadding>
+                                {/* Content */}
                                 <ListItem
                                     component="div"
                                     sx={{ pl: 4, cursor: "pointer" }}
                                     onClick={() =>
                                         navigate(
-                                            `/course/${
-                                                course?.id || ""
-                                            }/materials/topic/${
-                                                topic.id
-                                            }/content`
+                                            `/course/${course?.id}/materials/topic/${topic.id}/content`
                                         )
                                     }
                                 >
                                     <ListItemText primary="📖 Content" />
                                 </ListItem>
+
+                                {/* Quiz */}
                                 <ListItem
                                     component="div"
                                     sx={{ pl: 4, cursor: "pointer" }}
                                     onClick={() =>
                                         navigate(
-                                            `/course/${
-                                                course?.id || ""
-                                            }/materials/topic/${topic.id}/quiz`
+                                            `/course/${course?.id}/materials/topic/${topic.id}/quiz`
                                         )
                                     }
                                 >
                                     <ListItemText primary="📝 Quiz" />
+                                </ListItem>
+
+                                {/* 3 tasks */}
+                                <ListItem
+                                    component="div"
+                                    sx={{ pl: 4, cursor: "pointer" }}
+                                    onClick={() =>
+                                        navigate(
+                                            `/course/${course?.id}/materials/topic/${topic.id}/task/1`
+                                        )
+                                    }
+                                >
+                                    <ListItemText primary="💻 Task #1" />
                                 </ListItem>
                                 <ListItem
                                     component="div"
                                     sx={{ pl: 4, cursor: "pointer" }}
                                     onClick={() =>
                                         navigate(
-                                            `/course/${
-                                                course?.id || ""
-                                            }/materials/topic/${topic.id}/task`
+                                            `/course/${course?.id}/materials/topic/${topic.id}/task/2`
                                         )
                                     }
                                 >
-                                    <ListItemText primary="💻 Practical Task" />
+                                    <ListItemText primary="💻 Task #2" />
+                                </ListItem>
+                                <ListItem
+                                    component="div"
+                                    sx={{ pl: 4, cursor: "pointer" }}
+                                    onClick={() =>
+                                        navigate(
+                                            `/course/${course?.id}/materials/topic/${topic.id}/task/3`
+                                        )
+                                    }
+                                >
+                                    <ListItemText primary="💻 Task #3" />
                                 </ListItem>
                             </List>
                         </Collapse>
