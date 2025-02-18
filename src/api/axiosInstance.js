@@ -15,8 +15,8 @@
 import axios from "axios";
 
 // Base URL for the API
-// const API_URL = "https://api-golang-production-a90c.up.railway.app/api/v1";
-const API_URL = "http://localhost:8081/api/v1";
+const API_URL = import.meta.env.VITE_API_URL;
+// const API_URL = "http://localhost:8081/api/v1";
 
 // Create an Axios instance with default settings
 const api = axios.create({
