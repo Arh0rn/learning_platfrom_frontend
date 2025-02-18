@@ -29,6 +29,7 @@ import MyCoursesPage from "./pages/MyCoursesPage"; // Existing "My Courses" page
 import ForumLayout from "./layouts/ForumLayout";
 import ForumHomePage from "./pages/forum/ForumHomePage";
 import ForumQuestionPage from "./pages/forum/ForumQuestionPage";
+import AskQuestionPage from "./pages/forum/AskQuestionPage";
 
 function App() {
     return (
@@ -120,18 +121,18 @@ function App() {
 
                     {/* ✅ Forum routes with dedicated layout */}
                     <Route path="/forum" element={<ForumLayout />}>
-                        {/* Index route => if path is exactly /forum */}
                         <Route index element={<ForumHomePage />} />
-                        {/* /forum/category/:catId => reuse ForumHomePage to filter questions */}
                         <Route
                             path="category/:catId"
                             element={<ForumHomePage />}
                         />
-                        {/* Single question page => /forum/question/:id */}
                         <Route
                             path="question/:id"
                             element={<ForumQuestionPage />}
                         />
+
+                        {/* Ask a new question */}
+                        <Route path="ask" element={<AskQuestionPage />} />
                     </Route>
                 </Routes>
             </Router>

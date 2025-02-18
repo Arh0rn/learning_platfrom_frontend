@@ -15,6 +15,29 @@ import {
 } from "@mui/material";
 import { useAuth } from "../../context/AuthContext";
 
+// Helper to format date strings
+function formatDate(dateString) {
+    const d = new Date(dateString);
+    if (isNaN(d.getTime())) return dateString; // fallback if invalid
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
+
+/**
+ * Returns author's name if it exists (non-empty),
+ * otherwise returns author's email, or "unknown" if neither is present
+ */
+function getDisplayName(author) {
+    if (!author) return "unknown";
+    const maybeName = author.name?.trim();
+    if (maybeName) return maybeName; // if name is not empty
+    return author.email || "unknown";
+}
+
 const ForumQuestionPage = () => {
     const { id } = useParams(); // question ID
     const { user } = useAuth();
@@ -34,8 +57,8 @@ const ForumQuestionPage = () => {
                 const fetchedQuestion = await getQuestionById(id);
                 setQuestion(fetchedQuestion);
 
-                const fetchedAnswers = await getAnswers(id, 50, 0); // get up to 50 answers
-                // If you want newest to appear first, sort:
+                const fetchedAnswers = await getAnswers(id, 50, 0); // up to 50 answers
+                // Sort newest first
                 fetchedAnswers.sort(
                     (a, b) => new Date(b.created_at) - new Date(a.created_at)
                 );
@@ -58,11 +81,8 @@ const ForumQuestionPage = () => {
         setSubmitting(true);
 
         try {
-            await postAnswer({
-                question_id: id,
-                body: newAnswer,
-            });
-            // After successful post, re-fetch answers or just push it locally
+            await postAnswer({ question_id: id, body: newAnswer });
+            // After successful post, re-fetch answers
             const updatedAnswers = await getAnswers(id, 50, 0);
             updatedAnswers.sort(
                 (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -83,6 +103,8 @@ const ForumQuestionPage = () => {
         return <Typography>Question not found.</Typography>;
     }
 
+    const questionAuthorName = getDisplayName(question.author);
+
     return (
         <Box>
             {/* Question Section */}
@@ -95,7 +117,8 @@ const ForumQuestionPage = () => {
             </Typography>
 
             <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
-                Created at: {question.created_at}
+                Asked by: {questionAuthorName} on{" "}
+                {formatDate(question.created_at)}
             </Typography>
 
             <Divider sx={{ my: 2 }} />
@@ -109,27 +132,30 @@ const ForumQuestionPage = () => {
                 <Typography>No answers yet. Be the first to answer!</Typography>
             ) : (
                 <List>
-                    {answers.map((ans) => (
-                        <ListItem key={ans.id} alignItems="flex-start">
-                            <ListItemText
-                                primary={ans.body}
-                                secondary={
-                                    <>
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                color: "gray",
-                                                fontSize: "0.8rem",
-                                            }}
-                                        >
-                                            by {ans.author?.email || "unknown"}{" "}
-                                            at {ans.created_at}
-                                        </Box>
-                                    </>
-                                }
-                            />
-                        </ListItem>
-                    ))}
+                    {answers.map((ans) => {
+                        const answerAuthor = getDisplayName(ans.author);
+                        return (
+                            <ListItem key={ans.id} alignItems="flex-start">
+                                <ListItemText
+                                    primary={ans.body}
+                                    secondary={
+                                        <>
+                                            <Box
+                                                component="span"
+                                                sx={{
+                                                    color: "gray",
+                                                    fontSize: "0.8rem",
+                                                }}
+                                            >
+                                                by {answerAuthor} at{" "}
+                                                {formatDate(ans.created_at)}
+                                            </Box>
+                                        </>
+                                    }
+                                />
+                            </ListItem>
+                        );
+                    })}
                 </List>
             )}
 
