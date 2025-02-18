@@ -13,32 +13,53 @@ import {
     CircularProgress,
     Button,
     Box,
+    Snackbar,
+    Alert,
 } from "@mui/material";
 import Editor from "@monaco-editor/react";
-
-// Our new "radical" function
-import { encodeCodeForRequest } from "../utils/encodeCodeForRequest";
 
 const TaskPage = () => {
     const { id: courseId, topicId, order } = useParams();
     const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Editor code
     const [code, setCode] = useState("");
+
+    // Execution output
     const [executionOutput, setExecutionOutput] = useState("");
     const [executing, setExecuting] = useState(false);
+
+    // Submission status (for the color-coded box)
     const [submitting, setSubmitting] = useState(false);
+    const [submissionResult, setSubmissionResult] = useState(null);
+
+    // Snackbar states
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+
+    // Helper to open the Snackbar with a given message & severity
+    const showSnackbar = (message, severity) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity(severity);
+        setOpenSnackbar(true);
+    };
+
+    // Close handler for the Snackbar
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === "clickaway") return;
+        setOpenSnackbar(false);
+    };
 
     useEffect(() => {
-        // 1) On mount, fetch the real task
         const fetchTask = async () => {
             setLoading(true);
             try {
                 const data = await getTopicTask(courseId, topicId, order);
                 if (!data?.id) throw new Error("Task missing 'id' (UUID).");
 
-                // If the server returns something like "package main\\n\\n..."
-                // You might decode it so the editor sees real lines/tabs:
+                // Decode double-escaped newlines/tabs
                 let decoded = data.starter_code || "";
                 decoded = decoded
                     .replace(/\\n/g, "\n")
@@ -56,24 +77,16 @@ const TaskPage = () => {
         fetchTask();
     }, [courseId, topicId, order]);
 
+    // Execute
     const handleExecute = async () => {
         if (!task?.id) {
-            alert("No valid task.id");
+            showSnackbar("No valid task.id", "error");
             return;
         }
         setExecuting(true);
         setExecutionOutput("");
         try {
-            // 2) Convert real newlines/tabs => literal "\n" / "\t" (double slash)
-            const finalCode = encodeCodeForRequest(code);
-
-            // Then pass finalCode to your API call
-            const result = await executeTask(
-                courseId,
-                topicId,
-                task.id,
-                finalCode
-            );
+            const result = await executeTask(courseId, topicId, task.id, code);
             setExecutionOutput(result.output || "No output");
         } catch (err) {
             console.error("Execute error:", err);
@@ -83,28 +96,41 @@ const TaskPage = () => {
         }
     };
 
+    // Submit (color-coded box for success/failure)
     const handleSubmit = async () => {
         if (!task?.id) return;
         setSubmitting(true);
+        setSubmissionResult(null); // Clear old message
         try {
-            const finalCode = encodeCodeForRequest(code);
-            await submitTaskSolution(courseId, topicId, task.id, finalCode);
-            alert("Solution submitted successfully!");
+            await submitTaskSolution(courseId, topicId, task.id, code);
+
+            setSubmissionResult({
+                status: "success",
+                message: "Submission successful!",
+            });
         } catch (err) {
             console.error("Submit error:", err);
-            alert("Submission failed.");
+            setSubmissionResult({
+                status: "error",
+                message: "Submission failed.",
+            });
         } finally {
             setSubmitting(false);
         }
     };
 
+    // Reset (now uses Snackbar)
     const handleReset = async () => {
-        if (!task?.id) return;
-        if (!window.confirm("Reset this task?")) return;
+        if (!task?.id) {
+            showSnackbar("No valid task.id", "error");
+            return;
+        }
+        if (!window.confirm("Reset this task to its original code?")) return;
+
         try {
-            // call reset
             await resetTask(courseId, topicId, task.id);
-            // re-fetch
+
+            // Re-fetch
             const fresh = await getTopicTask(courseId, topicId, order);
             let decoded = fresh.starter_code || "";
             decoded = decoded
@@ -115,15 +141,36 @@ const TaskPage = () => {
             setTask(fresh);
             setCode(decoded);
             setExecutionOutput("");
-            alert("Task reset to original code.");
+            setSubmissionResult(null);
+            showSnackbar("Task reset to original code.", "success");
         } catch (err) {
             console.error("Reset error:", err);
-            alert("Reset failed.");
+            showSnackbar("Reset failed.", "error");
         }
     };
 
-    if (loading) return <CircularProgress />;
-    if (!task) return <Typography>Task not found.</Typography>;
+    if (loading) {
+        return <CircularProgress />;
+    }
+    if (!task) {
+        return <Typography>Task not found.</Typography>;
+    }
+
+    // Color-coded submission box (above the editor)
+    const submissionBox = submissionResult && (
+        <Box
+            sx={{
+                my: 2,
+                p: 2,
+                borderRadius: 2,
+                color: "white",
+                backgroundColor:
+                    submissionResult.status === "success" ? "green" : "red",
+            }}
+        >
+            <Typography>{submissionResult.message}</Typography>
+        </Box>
+    );
 
     return (
         <Container sx={{ mt: 3 }}>
@@ -133,6 +180,9 @@ const TaskPage = () => {
             <Typography variant="body1" gutterBottom>
                 {task.description}
             </Typography>
+
+            {/* Show submission status box if any */}
+            {submissionBox}
 
             <Editor
                 height="300px"
@@ -168,6 +218,7 @@ const TaskPage = () => {
                 </Button>
             </Box>
 
+            {/* Execution Output */}
             <Box
                 sx={{
                     mt: 2,
@@ -185,6 +236,22 @@ const TaskPage = () => {
                     {executionOutput}
                 </Typography>
             </Box>
+
+            {/* The MUI Snackbar + Alert */}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={4000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    severity={snackbarSeverity}
+                    sx={{ width: "100%" }}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };
