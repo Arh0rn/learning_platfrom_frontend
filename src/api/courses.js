@@ -133,16 +133,18 @@ export const getTopicContent = async (courseId, topicId) => {
  * if the quiz was already passed (passed: boolean).
  * Returns something like { quizzes: [...], passed: boolean } or
  * directly "quizzes" if you've nested into .data.
+ *
  */
+// In your courses.js or wherever:
+// If your backend returns { quizzes: [...], passed: bool },
+// plus each quiz has an "answers" field when passed, do this:
 export const getTopicQuizzes = async (courseId, topicId) => {
     try {
         const response = await api.get(
             `/courses/${courseId}/topic/${topicId}/quizzes`
         );
-        // According to your code, you do: return response.data.quizzes;
-        // If you ever need the "passed" flag, you can also check
-        // response.data.passed
-        return response.data.quizzes;
+        // Return the entire object, e.g. { quizzes: [...], passed: bool }
+        return response.data;
     } catch (error) {
         console.error(`Error fetching quizzes for topic ${topicId}:`, error);
         throw error;
@@ -183,7 +185,7 @@ export const resetQuiz = async (courseId, topicId) => {
     try {
         // If your server truly requires PUT, do:
         // const response = await api.put(`/courses/${courseId}/topic/${topicId}/quiz/reset`);
-        const response = await api.post(
+        const response = await api.put(
             `/courses/${courseId}/topic/${topicId}/quiz/reset`
         );
         return response.data;

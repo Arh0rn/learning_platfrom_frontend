@@ -19,32 +19,56 @@ import {
 
 const QuizPage = () => {
     const { id, topicId } = useParams();
+
+    // The quizzes array
     const [quizzes, setQuizzes] = useState([]);
+    // Whether the quiz is fully passed
+    const [passed, setPassed] = useState(false);
+
+    // Tracks user’s chosen answers for each quiz: { quizId: [bool, bool, ...], ... }
     const [selectedAnswers, setSelectedAnswers] = useState({});
+
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState(null);
+
+    // Snackbar states
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+
+    const showSnackbar = (message, severity) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity(severity);
+        setOpenSnackbar(true);
+    };
+    const handleCloseSnackbar = () => setOpenSnackbar(false);
 
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
                 const data = await getTopicQuizzes(id, topicId);
-                setQuizzes(data);
+                // data => { quizzes: [...], passed: bool } (plus each quiz can have quiz.answers if passed)
 
-                // Initialize state: all answers set to `false`
-                setSelectedAnswers(
-                    data.reduce((acc, quiz) => {
-                        acc[quiz.id] = new Array(quiz.options.length).fill(
-                            false
-                        );
-                        return acc;
-                    }, {})
-                );
+                const quizArray = data.quizzes || [];
+                setQuizzes(quizArray);
+                setPassed(!!data.passed);
+
+                // Build the default selectedAnswers
+                // If passed => pre-fill with quiz.answers
+                // If not passed => fill with all false
+                const initialAnswers = {};
+                quizArray.forEach((quiz) => {
+                    if (data.passed && quiz.answers) {
+                        initialAnswers[quiz.id] = quiz.answers;
+                    } else {
+                        initialAnswers[quiz.id] = new Array(
+                            quiz.options.length
+                        ).fill(false);
+                    }
+                });
+                setSelectedAnswers(initialAnswers);
             } catch (err) {
-                showSnackbar("Ошибка загрузки квиза", "error");
+                showSnackbar("Course load error", "error");
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -53,13 +77,10 @@ const QuizPage = () => {
         fetchQuizzes();
     }, [id, topicId]);
 
-    const showSnackbar = (message, severity) => {
-        setSnackbarMessage(message);
-        setSnackbarSeverity(severity);
-        setOpenSnackbar(true);
-    };
-
     const handleAnswerChange = (questionId, optionIndex, multipleChoice) => {
+        // If quiz is passed, we lock out changes
+        if (passed) return;
+
         setSelectedAnswers((prev) => {
             const newAnswers = { ...prev };
 
@@ -72,7 +93,6 @@ const QuizPage = () => {
                 ).fill(false);
                 newAnswers[questionId][optionIndex] = true;
             }
-
             return newAnswers;
         });
     };
@@ -80,7 +100,6 @@ const QuizPage = () => {
     const handleSubmit = async () => {
         try {
             setSubmitting(true);
-
             const formattedAnswers = quizzes.map((quiz) => ({
                 question_id: quiz.id,
                 answer: selectedAnswers[quiz.id],
@@ -90,20 +109,18 @@ const QuizPage = () => {
                 "Submitting quiz payload:",
                 JSON.stringify(formattedAnswers, null, 2)
             );
-
             const response = await submitQuiz(id, topicId, formattedAnswers);
             showSnackbar(
-                `✅ Тест отправлен! Статус: ${response.status}`,
+                `✅ Test submitted, Status: ${response.status}`,
                 "success"
             );
+            // optionally re-fetch to see if now "passed"
         } catch (err) {
             showSnackbar(
-                `❌ Ошибка: ${
-                    err.response?.data?.error || "Неизвестная ошибка"
-                }`,
+                `❌ Error: ${err.response?.data?.error || "Unknown error"}`,
                 "error"
             );
-            console.error("Ошибка отправки теста:", err);
+            console.error("Test submit error:", err);
         } finally {
             setSubmitting(false);
         }
@@ -112,22 +129,44 @@ const QuizPage = () => {
     const handleReset = async () => {
         try {
             await resetQuiz(id, topicId);
-            setSelectedAnswers(
-                quizzes.reduce((acc, quiz) => {
-                    acc[quiz.id] = new Array(quiz.options.length).fill(false);
-                    return acc;
-                }, {})
-            );
-            showSnackbar("🔄 Тест сброшен", "info");
+
+            // Show success message
+            showSnackbar("🔄 Test reset", "info");
+
+            // Reload the page to fully reset quiz state & remove the "passed" banner
+            window.location.reload();
         } catch (err) {
-            showSnackbar("Ошибка сброса теста", "error");
-            console.error("Ошибка сброса квиза:", err);
+            showSnackbar("Test reset error", "error");
+            console.error("Quiz reset error:", err);
         }
     };
 
-    if (loading) return <CircularProgress />;
-    if (quizzes.length === 0)
-        return <Typography>Квизы не найдены для этой темы.</Typography>;
+    if (loading) {
+        return <CircularProgress />;
+    }
+    if (quizzes.length === 0) {
+        return <Typography>No quiz found.</Typography>;
+    }
+
+    // Show a green banner if quiz is passed
+    let passedBanner = null;
+    if (passed) {
+        passedBanner = (
+            <Box
+                sx={{
+                    p: 2,
+                    mb: 2,
+                    borderRadius: 1,
+                    color: "white",
+                    backgroundColor: "green",
+                }}
+            >
+                <Typography variant="h6" sx={{ m: 0 }}>
+                    ✅ You have passed this quiz successfully!
+                </Typography>
+            </Box>
+        );
+    }
 
     return (
         <Container>
@@ -135,9 +174,12 @@ const QuizPage = () => {
                 📝 Тестирование
             </Typography>
 
+            {passedBanner}
+
             {quizzes.map((quiz) => (
                 <Paper key={quiz.id} sx={{ p: 2, mb: 2 }}>
                     <Typography variant="h6">{quiz.question}</Typography>
+
                     {quiz.multiple_choice ? (
                         <FormGroup>
                             {quiz.options.map((option, index) => (
@@ -146,8 +188,11 @@ const QuizPage = () => {
                                     control={
                                         <Checkbox
                                             checked={
-                                                selectedAnswers[quiz.id][index]
+                                                selectedAnswers[quiz.id]?.[
+                                                    index
+                                                ] || false
                                             }
+                                            disabled={passed} // lock if passed
                                             onChange={() =>
                                                 handleAnswerChange(
                                                     quiz.id,
@@ -163,9 +208,11 @@ const QuizPage = () => {
                         </FormGroup>
                     ) : (
                         <RadioGroup
-                            value={selectedAnswers[quiz.id].findIndex(
-                                (v) => v === true
-                            )}
+                            value={
+                                selectedAnswers[quiz.id]?.findIndex(
+                                    (v) => v === true
+                                ) ?? -1
+                            }
                             onChange={(e) =>
                                 handleAnswerChange(
                                     quiz.id,
@@ -178,7 +225,7 @@ const QuizPage = () => {
                                 <FormControlLabel
                                     key={index}
                                     value={index}
-                                    control={<Radio />}
+                                    control={<Radio disabled={passed} />}
                                     label={option}
                                 />
                             ))}
@@ -194,26 +241,26 @@ const QuizPage = () => {
                     onClick={handleSubmit}
                     disabled={submitting}
                 >
-                    {submitting ? "Отправка..." : "📤 Отправить ответы"}
+                    {submitting ? "Submitting..." : "📤 Submit"}
                 </Button>
                 <Button
                     variant="outlined"
                     color="secondary"
                     onClick={handleReset}
                 >
-                    🔄 Сбросить тест
+                    🔄 Quiz reset
                 </Button>
             </Box>
 
-            {/* ✅ Всплывающее уведомление */}
+            {/* Snackbar */}
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={3000}
-                onClose={() => setOpenSnackbar(false)}
+                onClose={handleCloseSnackbar}
                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
             >
                 <Alert
-                    onClose={() => setOpenSnackbar(false)}
+                    onClose={handleCloseSnackbar}
                     severity={snackbarSeverity}
                     sx={{ width: "100%" }}
                 >

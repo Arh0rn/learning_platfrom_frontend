@@ -28,7 +28,7 @@ const ContentPage = () => {
                 }
                 setContent(data);
             } catch (error) {
-                console.error("Ошибка загрузки контента:", error);
+                console.error("Content load error:", error);
             } finally {
                 setLoading(false);
             }
@@ -42,9 +42,7 @@ const ContentPage = () => {
     return (
         <Container maxWidth="md">
             {/* Заголовок */}
-            <Typography variant="h4" gutterBottom>
-                {content.title || "Название темы"}
-            </Typography>
+            <Typography variant="h4" gutterBottom></Typography>
 
             {/* Основной контент (Markdown) */}
             <Card sx={{ mb: 3, p: 2 }}>
@@ -82,7 +80,7 @@ const ContentPage = () => {
             {content.video_urls?.length > 0 && (
                 <Box sx={{ my: 3 }}>
                     <Typography variant="h5" gutterBottom>
-                        Видео материалы
+                        Video
                     </Typography>
                     {content.video_urls.map((videoUrl, index) => (
                         <Box
@@ -110,13 +108,13 @@ const ContentPage = () => {
             {content.image_urls?.length > 0 && (
                 <Box sx={{ my: 3 }}>
                     <Typography variant="h5" gutterBottom>
-                        Изображения
+                        Images
                     </Typography>
                     {content.image_urls.map((imgUrl, index) => (
                         <Box key={index} sx={{ textAlign: "center", my: 2 }}>
                             <img
                                 src={imgUrl}
-                                alt={`Изображение ${index + 1}`}
+                                alt={`Image ${index + 1}`}
                                 style={{ maxWidth: "100%", borderRadius: 8 }}
                             />
                         </Box>
@@ -128,7 +126,7 @@ const ContentPage = () => {
             {content.additional_resources?.length > 0 && (
                 <Box sx={{ my: 3 }}>
                     <Typography variant="h5" gutterBottom>
-                        Дополнительные ресурсы
+                        Additional sources
                     </Typography>
                     <ul>
                         {content.additional_resources.map((resource, index) => (

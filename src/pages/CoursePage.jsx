@@ -111,7 +111,7 @@ const CoursePage = () => {
 
             <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <Typography variant="h6">Описание курса</Typography>
+                    <Typography variant="h6">Description</Typography>
                     <Typography variant="body1">
                         {course.description}
                     </Typography>
@@ -120,25 +120,25 @@ const CoursePage = () => {
 
             <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <Typography variant="h6">Категория</Typography>
+                    <Typography variant="h6">Category</Typography>
                     <Typography variant="body2">
-                        {course.category?.name || "Неизвестно"}
+                        {course.category?.name || "Unknown"}
                     </Typography>
 
                     <Typography variant="h6" sx={{ mt: 2 }}>
-                        Дата создания
+                        Created At
                     </Typography>
                     <Typography variant="body2">
                         {course.created_at
                             ? new Date(course.created_at).toLocaleDateString()
-                            : "Неизвестно"}
+                            : "Unknown"}
                     </Typography>
                 </CardContent>
             </Card>
 
             <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <Typography variant="h6">Темы курса</Typography>
+                    <Typography variant="h6">Course topics</Typography>
                     {topics.length > 0 ? (
                         <List>
                             {topics.map((topic, index) => (
@@ -157,7 +157,7 @@ const CoursePage = () => {
                         </List>
                     ) : (
                         <Typography variant="body2" color="textSecondary">
-                            Темы пока не добавлены
+                            No topic added
                         </Typography>
                     )}
                 </CardContent>
