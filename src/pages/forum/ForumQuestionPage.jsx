@@ -1,4 +1,3 @@
-// src/pages/forum/ForumQuestionPage.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getQuestionById, getAnswers, postAnswer } from "../../api/faq";
@@ -34,7 +33,7 @@ function formatDate(dateString) {
 function getDisplayName(author) {
     if (!author) return "unknown";
     const maybeName = author.name?.trim();
-    if (maybeName) return maybeName; // if name is not empty
+    if (maybeName) return maybeName;
     return author.email || "unknown";
 }
 
@@ -112,6 +111,17 @@ const ForumQuestionPage = () => {
                 {question.title}
             </Typography>
 
+            {/* Show the image if provided */}
+            {question.image_url && (
+                <Box sx={{ my: 2, textAlign: "center" }}>
+                    <img
+                        src={question.image_url}
+                        alt={question.title}
+                        style={{ maxWidth: "100%", maxHeight: "300px" }}
+                    />
+                </Box>
+            )}
+
             <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
                 {question.body}
             </Typography>
@@ -139,18 +149,16 @@ const ForumQuestionPage = () => {
                                 <ListItemText
                                     primary={ans.body}
                                     secondary={
-                                        <>
-                                            <Box
-                                                component="span"
-                                                sx={{
-                                                    color: "gray",
-                                                    fontSize: "0.8rem",
-                                                }}
-                                            >
-                                                by {answerAuthor} at{" "}
-                                                {formatDate(ans.created_at)}
-                                            </Box>
-                                        </>
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                color: "gray",
+                                                fontSize: "0.8rem",
+                                            }}
+                                        >
+                                            by {answerAuthor} at{" "}
+                                            {formatDate(ans.created_at)}
+                                        </Box>
                                     }
                                 />
                             </ListItem>
